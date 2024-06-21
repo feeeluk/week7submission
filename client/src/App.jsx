@@ -21,7 +21,7 @@ export function App(){
     fetchData()
 
     async function fetchData(){
-      const response = await fetch("http://localhost:7070/albums")
+      const response = await fetch("https://week7submissionserver.onrender.com/albums")
       const albumData = await response.json(response.rows)
       setAlbum(albumData)
     }
