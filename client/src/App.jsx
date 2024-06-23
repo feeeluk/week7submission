@@ -24,14 +24,14 @@ export function App(){
     fetchArtists()
 
     async function fetchAlbums(){
-      const response = await fetch("https://week7submissionserver.onrender.com//albums")
+      const response = await fetch("https://week7submissionserver.onrender.com/albums")
       const albumData = await response.json(response.rows)
       setAlbums(albumData)
     }
 
 
     async function fetchArtists(){
-      const response = await fetch("https://week7submissionserver.onrender.com//artists")
+      const response = await fetch("https://week7submissionserver.onrender.com/artists")
       const artistsData = await response.json(response.rows)
       setArtists(artistsData)
     }
@@ -41,7 +41,7 @@ export function App(){
   function handleSubmit(submit){
     
     submit.preventDefault()
-    fetch('https://week7submissionserver.onrender.com//albums', {
+    fetch('https://week7submissionserver.onrender.com/albums', {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
