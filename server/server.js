@@ -49,6 +49,22 @@ app. get('/albums', async (request, response) => {
      }
 })
 
+app. get('/artistalbums', async (request, response) => {
+    try{
+        const data = await db.query(`
+                                    SELECT albums.album_title AS album, artists.artist_name AS artist, albums.album_description AS description, albums.album_art AS art, albums.album_released_year AS released
+                                    FROM albums
+                                    left join artists on album_artist_id = artists.artist_id
+                                    WHERE artists.artist_id = 1
+                                    `)
+        
+        response.json(data.rows)
+    }
+     catch (error){
+        response.json(error)
+     }
+})
+
 app. get('/artists', async (request, response) => {
     try{
         const data = await db.query(`
