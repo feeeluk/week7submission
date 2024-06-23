@@ -16,21 +16,12 @@ const db = new pg.Pool({
 })
 
 // POST ****************************************************************************
-// app.post('/albums', async (request, response) => {
-//     console.log('REQUEST BODY:', request.body)
-
-//     const {album_name, album_artist, album_description, album_artwork, album_released} = request.body
-
-//     const result = await db.query(`INSERT INTO albums (album_title, album_artist, album_description, album_art, album_released) VALUES ($1, $2, $3, $4, $5)`, [album_name, album_artist, album_description, album_artwork, album_released])
-//     response.json({recordInserted: result})
-// })
-
 app.post('/albums', async (request, response) => {
     
-    const {album_name, album_description, album_artwork, album_released} = request.body
+    const {album_name, album_artist, album_description, album_artwork, album_released} = request.body
     console.log('REQUEST BODY:', request.body)
 
-    const result = await db.query(`INSERT INTO albums (album_title, album_description, album_art, album_released_year) VALUES ($1, $2, $3, $4)`, [album_name, album_description, album_artwork, album_released])
+    const result = await db.query(`INSERT INTO albums (album_title, album_artist_id, album_description, album_art, album_released_year) VALUES ($1, $2, $3, $4, $5)`, [album_name, album_artist, album_description, album_artwork, album_released])
     response.json({recordInserted: result})
 })
 
@@ -43,16 +34,29 @@ app.get('/', (request, response) => {
 app. get('/albums', async (request, response) => {
     try{
         const data = await db.query(`
-SELECT albums.album_title AS album, artists.artist_name AS artist, albums.album_description AS description, albums.album_art AS art, albums.album_released_year AS released, ARRAY_AGG(genres.genre_name) AS genre
-FROM albums
-left join album_genres on albums.album_id = album_genres.album_id
-left join genres on album_genres.genre_id = genres.genre_id
-left join artists on album_artist_id = artists.artist_id
-group by album, artist, description, art, released
+                                    SELECT albums.album_title AS album, artists.artist_name AS artist, albums.album_description AS description, albums.album_art AS art, albums.album_released_year AS released, ARRAY_AGG(genres.genre_name) AS genre
+                                    FROM albums
+                                    left join album_genres on albums.album_id = album_genres.album_id
+                                    left join genres on album_genres.genre_id = genres.genre_id
+                                    left join artists on album_artist_id = artists.artist_id
+                                    group by album, artist, description, art, released
                                     `)
         
         response.json(data.rows)
+    }
+     catch (error){
+        response.json(error)
+     }
+})
 
+app. get('/artists', async (request, response) => {
+    try{
+        const data = await db.query(`
+                                    SELECT *
+                                    FROM artists
+                                    `)
+        
+        response.json(data.rows)
     }
      catch (error){
         response.json(error)

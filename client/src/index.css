@@ -1,3 +1,8 @@
+*{margin: 0px;
+padding: 0px;}
+
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -72,15 +77,24 @@ button:focus-visible {
   color: white;
   display: flex;
   flex-direction: column;
+  border: solid 5px brown;
+  border-bottom: none;
 }
 
+.shelfTitle{
+  display: flex;
+  flex-direction: row;
+  margin-left: 5px;
+}
+
+
 .shelf{
-  background-color: blue;
+  /* background-color: blue; */
   color: white;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin: 5px;
+  justify-content:left;
+  border-bottom: solid 5px brown;
 }
 
 .album{
@@ -88,10 +102,11 @@ button:focus-visible {
   color: white;
   min-width: 200px;
   min-height: 200px;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 img{
   height: 200px;
   width: auto;
 }
+
